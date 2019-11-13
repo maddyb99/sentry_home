@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sentry_home/Authentication/LoginReq.dart';
 
 class LoginPage extends StatefulWidget{
   @override
@@ -40,9 +39,19 @@ class _LoginPageState extends State<LoginPage> {
                     onSaved: null,
                   ),
                 ),
+                RaisedButton(
+                  child: Text("Login"),
+                  onPressed: null,
+                )
               ],
             ),
-          )
+          ),
+          FlatButton(onPressed: GoogleAuth().loginGoogle(), child: Row(
+            children: <Widget>[
+//              Image.asset("google_logo.png"),
+              Text("Login with Google"),
+            ],
+          )),
         ],
       ),
     );
