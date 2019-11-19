@@ -7,6 +7,8 @@ class LoginPage extends StatefulWidget{
 }
 
 class _LoginPageState extends State<LoginPage> {
+  Authentication auth = new Authentication();
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -46,7 +48,9 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
           ),
-          FlatButton(onPressed: GoogleAuth().loginGoogle(), child: Row(
+          FlatButton(onPressed: () {
+            auth.loginGoogle();
+          }, child: Row(
             children: <Widget>[
 //              Image.asset("google_logo.png"),
               Text("Login with Google"),
