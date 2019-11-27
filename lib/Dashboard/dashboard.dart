@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget{
@@ -7,11 +8,13 @@ class Dashboard extends StatefulWidget{
 
 class _DashboardState extends State<Dashboard> {
   bool sentryMode;
+
   @override
   void initState(){
     super.initState();
     sentryMode=false;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,13 +23,16 @@ class _DashboardState extends State<Dashboard> {
         children: <Widget>[
           Card(
             child: SwitchListTile(
-                value: sentryMode,
+              value: sentryMode,
 //              groupValue: null,
-                onChanged: (val){
-                  setState(() {
-                    sentryMode=val;
-                  });
-                },
+              onChanged: (val){
+                setState(() {
+                  sentryMode=val;
+                });
+                Firestore.instance.collection("Options")
+                    .document("isArmed")
+                    .updateData({"check": sentryMode});
+              },
               title: Text("Sentry Mode"),
             ),
           ),

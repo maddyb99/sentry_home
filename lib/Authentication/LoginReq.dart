@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sentry_home/Dashboard/dashboard.dart';
 import 'package:sentry_home/Utils/GameData.dart';
 
 
@@ -24,8 +25,6 @@ class Authentication {
 
   void getName(String pass) => details.addAll({"name": pass});
 
-  void getRegNo(String pass) => details.addAll({"regno": int.parse(pass)});
-
   void Login(GlobalKey<FormState> formkey, BuildContext context) async {
     FormState state = formkey.currentState;
     if (state.validate()) {
@@ -41,7 +40,7 @@ class Authentication {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => ListPage(title: 'QUIZ IT'),
+              builder: (context) => Dashboard(),
             ), ModalRoute.withName(':'));
       }
     }
@@ -53,10 +52,10 @@ class Authentication {
       state.save();
       print(details);
       try {
-        AuthResult result = await FirebaseAuth.instance
+        await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
             email: details["emailID"], password: details["pass"]);
-        print(result.toString());
+//        print(result.toString());
       }
       catch (e) {
         print(e.toString());
@@ -66,13 +65,12 @@ class Authentication {
       print("in");
       currentUser.usr = await FirebaseAuth.instance.currentUser();
       if (currentUser.usr != null) {
-        details.remove("pass");
+//        details.remove("pass");
         print(details);
         await Firestore.instance.collection("Users").document(
             currentUser.usr.uid).setData({
-          'Name': details["name"],
-          'emailID': details["emailID"],
-          'RegNo': details["regno"]
+//          'Name': details["name"],
+          'emailID': 'email',
         });
         currentUser.userData =
         await Firestore.instance.collection("Users").document(
@@ -80,7 +78,7 @@ class Authentication {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => ListPage(title: 'QUIZ IT'),
+              builder: (context) => Dashboard(),
             ), ModalRoute.withName(':'));
       }
     }
